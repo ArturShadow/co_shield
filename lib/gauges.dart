@@ -1,3 +1,4 @@
+import 'package:co_shield_2_0/pruebapi1.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 // import 'package:co_shield_2_0/conexion.dart';
@@ -39,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _getRadialGauge() {
     double co = 1387.5;
     Future<double>? valorSensorCO; // Valor inicial del sensor de CO
+    fetchDataFromArduinoCloud();
 
     //print(valorSensorCO);
     return SfRadialGauge(
@@ -71,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             NeedlePointer(value: co, enableAnimation: true)
           ], annotations: <GaugeAnnotation>[
             GaugeAnnotation(
-                widget: Text(valorSensorCO.toString(),
+                widget: Text(co.toString(),
                     style: const TextStyle(
                         fontSize: 25, fontWeight: FontWeight.bold)),
                 angle: 90,
@@ -99,9 +101,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: const Menu(),
+    return const Scaffold(
+        drawer: Menu(),
         //appBar: AppBar(title: const Text('CO SHIELD'), centerTitle: true),
-        body: _getGauge());
+        body: MyWidget());
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Arduino Cloud API'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            fetchDataFromArduinoCloud();
+          },
+          child: const Text('Obtener datos desde Arduino Cloud'),
+        ),
+      ),
+    );
   }
 }

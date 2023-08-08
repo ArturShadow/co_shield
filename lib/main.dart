@@ -1,9 +1,10 @@
+import 'package:co_shield_2_0/pruebapi1.dart';
 import 'package:flutter/material.dart';
 import 'drawer.dart';
 
 Future main() async {
   await inicializar(null);
-  return runApp(MyApp());
+  return runApp(const MyApp());
 }
 
 Future inicializar(BuildContext? context) async {
@@ -11,6 +12,8 @@ Future inicializar(BuildContext? context) async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(

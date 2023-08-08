@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/material.dart';
 
 Future<double> obtenerDatosSensorCO() async {
   // URL de la API de Arduino Cloud

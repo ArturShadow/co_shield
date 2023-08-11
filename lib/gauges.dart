@@ -1,9 +1,7 @@
-import 'package:co_shield_2_0/pruebapi1.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-// import 'package:co_shield_2_0/conexion.dart';
 import 'package:co_shield_2_0/drawer.dart';
-import 'pruebapi1.dart';
+import 'api/arduino.dart';
 
 /// Represents the GaugeApp class
 class GaugeApp extends StatelessWidget {
@@ -39,9 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _getRadialGauge() {
-    double co = 1387.5;
-    Future<double>? valorSensorCO; // Valor inicial del sensor de CO
-    
+    var co = ArduinoCloud().fetchData();
     //print(valorSensorCO);
     return SfRadialGauge(
         enableLoadingAnimation: true,

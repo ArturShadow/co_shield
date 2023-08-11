@@ -1,20 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:co_shield_2_0/token.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  Future<bool> fetchData() async {
-    var token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaTIuYXJkdWluby5jYy9pb3QiLCJhenAiOiJsNzdESHYxOHZvR2JWV05GYmJYcTlnY0tVVVpNdVNGNCIsImV4cCI6MTY5MTYzMjgxNiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIiwiaHR0cDovL2FyZHVpbm8uY2MvY2xpZW50X2lkIjoiQWlyZHVpbm8iLCJodHRwOi8vYXJkdWluby5jYy9pZCI6ImZjMzhlMmFlLTJhNjktNDMzYi1iOTA2LTk4ZjYyZTFhNmI3YiIsImh0dHA6Ly9hcmR1aW5vLmNjL3JhdGVsaW1pdCI6MTAsImh0dHA6Ly9hcmR1aW5vLmNjL3VzZXJuYW1lIjoiZW5pYm94IiwiaWF0IjoxNjkxNjMyNTE2LCJzdWIiOiJsNzdESHYxOHZvR2JWV05GYmJYcTlnY0tVVVpNdVNGNEBjbGllbnRzIn0._SxRzm9crUm0qSbvf221Lx0nW2pKaBHlA8c800IJRhs";
-    //const clientId = 'l77DHv18voGbVWNFbbXq9gcKUUZMuSF4';
-    //const clientSecret = 'ggpfD2zfUrJ6UmHqeheN09orTqyzO5hI6wnPfzL1sFr51LUSEZtIy2LcDH9x8mj5';
+  Future<dynamic> fetchData() async {
+    var token = await FetchToken().fetchAccessToken();
     final response = await http.get(
         Uri.parse(
-            'https://api2.arduino.cc/iot/v2/things/f8c6a63b-a11d-4939-9b23-673c08ebcb54/properties/08987657-b51a-4a3a-b7d1-d5022f9b3d86'),
+            'https://api2.arduino.cc/iot/v2/things/7b628bc9-3dab-4e42-87f3-be57ed0aef64/properties/2347eeb2-054f-4179-8490-aad3d5cb6e63'),
         headers: {
           'Authorization': 'Bearer $token',
           // 'Access-Control-Allow-Origin': '*',
@@ -38,7 +36,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Arduino API Demo'),
         ),
-        body: FutureBuilder<bool>(
+        body: FutureBuilder<dynamic>(
           future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

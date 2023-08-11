@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'api/arduino.dart';
+import 'gauges.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const GaugeApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

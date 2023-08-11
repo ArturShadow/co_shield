@@ -28,6 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+    var co = ArduinoCloud().fetchData();
   Widget _getGauge({bool isRadialGauge = true}) {
     if (isRadialGauge) {
       return _getRadialGauge();
@@ -36,8 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Widget _getRadialGauge() {
-    var co = ArduinoCloud().fetchData();
+  Widget _getRadialGaug {
     //print(valorSensorCO);
     return SfRadialGauge(
         enableLoadingAnimation: true,
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 startWidth: 10,
                 endWidth: 10)
           ], pointers: <GaugePointer>[
-            NeedlePointer(value: co, enableAnimation: true)
+            NeedlePointer(value:co, enableAnimation: true)
           ], annotations: <GaugeAnnotation>[
             GaugeAnnotation(
                 widget: Text(co.toString(),
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return const Scaffold(
         drawer: Menu(),
         //appBar: AppBar(title: const Text('CO SHIELD'), centerTitle: true),
-        body: MyWidget());
+        body: GaugeApp());
   }
 }
 

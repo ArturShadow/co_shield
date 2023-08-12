@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
-import 'api/arduino.dart';
-import 'gauges.dart';
+import 'drawer.dart';
 
-void main() => runApp(const GaugeApp());
+Future main() async {
+  await inicializar(null);
+  return runApp(const MyApp());
+}
+
+Future inicializar(BuildContext? context) async {
+  await Future.delayed(const Duration(seconds: 2));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Arduino API Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Arduino API Demo'),
-        ),
-        body: FutureBuilder<dynamic>(
-          future: ArduinoCloud().fetchData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!.toString());
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Directionality(
+        textDirection:
+            TextDirection.ltr, // Replace with your desired text direction
+        child: Menu(),
       ),
     );
   }

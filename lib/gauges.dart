@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:co_shield_2_0/drawer.dart';
 import 'api/arduino.dart';
+import 'drawer.dart';
+
+void main() {
+  return runApp(GaugeApp());
+}
 
 /// Represents the GaugeApp class
 class GaugeApp extends StatelessWidget {
-  const GaugeApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'CO Shield',
-      theme: ThemeData(primarySwatch: Colors.indigo),
-      home: const MyHomePage(),
+      title: 'Radial Gauge Demo',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: MyHomePage(),
     );
   }
 }
@@ -21,14 +22,13 @@ class GaugeApp extends StatelessWidget {
 /// Represents MyHomePage class
 class MyHomePage extends StatefulWidget {
   /// Creates the instance of MyHomePage
-  const MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-    var co = ArduinoCloud().fetchData();
   Widget _getGauge({bool isRadialGauge = true}) {
     if (isRadialGauge) {
       return _getRadialGauge();
@@ -37,9 +37,17 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Widget _getRadialGaug {
-    //print(valorSensorCO);
-    return SfRadialGauge(
+  Widget _getRadialGauge() {
+    return FutureBuilder<double>(
+    future: ArduinoCloud().fetchData(), // Reemplaza con tu función asincrónica
+    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const CircularProgressIndicator(); // Indicador de carga mientras espera
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else {
+        double co = snapshot.data!; // Obtiene el valor del Future
+        return SfRadialGauge(
         enableLoadingAnimation: true,
         animationDuration: 3500,
         title: const GaugeTitle(
@@ -76,6 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 positionFactor: 0.5)
           ])
         ]);
+      }
+    },
+  );
   }
 
   Widget _getLinearGauge() {
@@ -88,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           majorTickStyle: const LinearTickStyle(length: 20),
           axisLabelStyle: const TextStyle(fontSize: 12.0, color: Colors.black),
           axisTrackStyle: const LinearAxisTrackStyle(
-              color: Colors.amber,
+              color: Colors.cyan,
               edgeStyle: LinearEdgeStyle.bothFlat,
               thickness: 15.0,
               borderColor: Colors.grey)),
@@ -97,30 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        drawer: Menu(),
-        //appBar: AppBar(title: const Text('CO SHIELD'), centerTitle: true),
-        body: GaugeApp());
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Arduino Cloud API'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            ();
-          },
-          child: const Text('Obtener datos desde Arduino Cloud'),
-        ),
-      ),
-    );
+        drawer: const Menu(),
+        body: _getGauge());
   }
 }

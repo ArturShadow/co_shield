@@ -40,7 +40,7 @@ class NavigationDrawer extends StatelessWidget {
           title: const Text('Home'),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const GaugeApp(),
+              builder: (context) => GaugeApp(),
             ),
           ),
         ),
